@@ -126,9 +126,9 @@ namespace MultiBoost {
                 args.getValue("earlystopping", 0, _earlyStoppingMinIterations);
                 args.getValue("earlystopping", 1, _earlyStoppingSmoothingWindowRate);
                 args.getValue("earlystopping", 2, _earlyStoppingMaxLookaheadRate); 
-				if (args.hasArgument("earlystoppingoutputinfo"))
-					args.getValue("earlystoppingoutputinfo", 0, _earlyStoppingOutputColumn);
-				else _earlyStoppingOutputColumn = "e01";
+                if (args.hasArgument("earlystoppingoutputinfo"))
+                    args.getValue("earlystoppingoutputinfo", 0, _earlyStoppingOutputColumn);
+                else _earlyStoppingOutputColumn = "e01";
             }
         }
         
@@ -186,20 +186,20 @@ namespace MultiBoost {
         if ( !_outputInfoFile.empty() ) 
         {
             pOutInfo = new OutputInfo(args);
-			if (_earlyStopping && pOutInfo->getOutputInfoObject(_earlyStoppingOutputColumn) == NULL)
-			{
-				if (_verbose >= 2)
-				{
-					cout << _earlyStoppingOutputColumn << " not declared as outputinfo but used for earlystopping, automatically added." << endl;
-				}
-				pOutInfo->setOutputList(_earlyStoppingOutputColumn);
-			}
-			pOutInfo->initialize(pTrainingData);
+            if (_earlyStopping && pOutInfo->getOutputInfoObject(_earlyStoppingOutputColumn) == NULL)
+            {
+              if (_verbose >= 2)
+              {
+                cout << _earlyStoppingOutputColumn << " not declared as outputinfo but used for earlystopping, automatically added." << endl;
+              }
+              pOutInfo->setOutputList(_earlyStoppingOutputColumn);
+            }
+            pOutInfo->initialize(pTrainingData);
 
-			if (pTestData)
-				pOutInfo->initialize(pTestData);
+            if (pTestData)
+              pOutInfo->initialize(pTestData);
 
-			pOutInfo->outputHeader(pTrainingData->getClassMap());
+            pOutInfo->outputHeader(pTrainingData->getClassMap());
 
 
             if ( ! args.hasArgument("resume") )
@@ -236,25 +236,25 @@ namespace MultiBoost {
         Serialization ss(_shypFileName, _isShypCompressed );
         ss.writeHeader(_baseLearnerName); // this must go after resumeProcess has been called
 
-		// Initialization for earlystopping
-		sumErrorWindow = 0.0;
-		numErrorWindow = 0;
-		currentMin = 1.0;
-		_currentMinT = 0;
+        // Initialization for earlystopping
+        sumErrorWindow = 0.0;
+        numErrorWindow = 0;
+        currentMin = 1.0;
+        _currentMinT = 0;
 
-		OUTPUTINFO_OPTIMIZATION opt_type;
-		if (_earlyStopping)
-		{
-			opt_type = pOutInfo->getOutputInfoObject(_earlyStoppingOutputColumn)->getOptimType();
-			if (opt_type == UNKNOWN)
-			{
-				cerr << "ERROR!"
-					<< _earlyStoppingOutputColumn
-					<< " cannot be selected for earlyStopping policy " << endl;
-				exit(1);
+        OUTPUTINFO_OPTIMIZATION opt_type;
+        if (_earlyStopping)
+        {
+          opt_type = pOutInfo->getOutputInfoObject(_earlyStoppingOutputColumn)->getOptimType();
+          if (opt_type == UNKNOWN)
+          {
+              cerr << "ERROR!"
+                    << _earlyStoppingOutputColumn
+                    << " cannot be selected for earlyStopping policy " << endl;
+              exit(1);
 
-			}
-		}
+          }
+        }
 
         // perform the resuming if necessary. If not it will just return
         resumeProcess(ss, pTrainingData, pTestData, pOutInfo);
@@ -271,8 +271,8 @@ namespace MultiBoost {
         ///////////////////////////////////////////////////////////////////////
 //        _currentMinT = startingIteration; // early stopping
 
-		if (_earlyStoppingDone)
-			startingIteration = _numIterations;
+        if (_earlyStoppingDone)
+            startingIteration = _numIterations;
         for (int t = startingIteration; t < _numIterations; ++t)
         {
             if (_verbose > 1)
@@ -347,7 +347,7 @@ namespace MultiBoost {
             _foundHypotheses.push_back(pWeakHypothesis); 
             if (_earlyStopping && !_earlyStoppingDone)
             {
-				sumErrorWindow += pOutInfo->getOutputHistory(pTestData, _earlyStoppingOutputColumn, t);
+                sumErrorWindow += pOutInfo->getOutputHistory(pTestData, _earlyStoppingOutputColumn, t);
                 numErrorWindow += 1;
                 while (numErrorWindow > _earlyStoppingSmoothingWindowRate * t + 1) 
                 {
@@ -356,17 +356,17 @@ namespace MultiBoost {
                 }
                 if (t > _earlyStoppingMinIterations) 
                 {
-					if (((opt_type == MIN) && ((sumErrorWindow / numErrorWindow) < currentMin)) ||
-						((opt_type == MAX) && ((sumErrorWindow / numErrorWindow) > currentMin)))
-					{
+                    if (((opt_type == MIN) && ((sumErrorWindow / numErrorWindow) < currentMin)) ||
+                        ((opt_type == MAX) && ((sumErrorWindow / numErrorWindow) > currentMin)))
+                    {
                         currentMin = sumErrorWindow / numErrorWindow;
                         _currentMinT = t;
                     }
                     cout << _earlyStoppingMinIterations << " " << t << ": " << sumErrorWindow/numErrorWindow << " " << _currentMinT << endl;
                     if (t > _currentMinT * _earlyStoppingMaxLookaheadRate)
                     {
-						cout << "Early Stopping at " << t << endl;
-						_earlyStoppingDone = true;
+                        cout << "Early Stopping at " << t << endl;
+                        _earlyStoppingDone = true;
                         break;
                     }
                 }
@@ -711,8 +711,8 @@ namespace MultiBoost {
                                           OutputInfo* pOutInfo)
     {
 
-		_earlyStoppingDone = false;
-		if (_resumeShypFileName.empty())
+        _earlyStoppingDone = false;
+        if (_resumeShypFileName.empty())
             return;
 
         vector<BaseLearner*>::iterator it;
@@ -750,19 +750,19 @@ namespace MultiBoost {
             const int numIters = static_cast<int>(_foundHypotheses.size());
             const int step = numIters < 5 ? 1 : numIters / 5;
 
-			OUTPUTINFO_OPTIMIZATION opt_type;
-			if (_earlyStopping)
-			{
-				opt_type = pOutInfo->getOutputInfoObject(_earlyStoppingOutputColumn)->getOptimType();
-				if (opt_type == UNKNOWN)
-				{
-					cerr << "ERROR!" 
-						<< _earlyStoppingOutputColumn 
-						<< " cannot be selected for earlyStopping policy " << endl;
-				          exit(1);
+            OUTPUTINFO_OPTIMIZATION opt_type;
+            if (_earlyStopping)
+            {
+              opt_type = pOutInfo->getOutputInfoObject(_earlyStoppingOutputColumn)->getOptimType();
+              if (opt_type == UNKNOWN)
+              {
+                cerr << "ERROR!" 
+                    << _earlyStoppingOutputColumn 
+                    << " cannot be selected for earlyStopping policy " << endl;
+                          exit(1);
 
-				}
-			}
+              }
+            }
 
             if (_verbose > 0)
                 cout << "Resuming up to iteration " << _foundHypotheses.size() - 1 << ": 0%." << flush;
@@ -794,33 +794,33 @@ namespace MultiBoost {
                     //          exit(1);
                 }
 
-				// Updating earlystopping status for slow resume
-				if (_earlyStopping)
-				{
-					sumErrorWindow += pOutInfo->getOutputHistory(pTestData, _earlyStoppingOutputColumn, t);
-					numErrorWindow += 1;
-					while (numErrorWindow > _earlyStoppingSmoothingWindowRate * t + 1)
-					{
-						sumErrorWindow -= pOutInfo->getOutputHistory(pTestData, _earlyStoppingOutputColumn, t - numErrorWindow + 1);
-						numErrorWindow -= 1;
-					}
-					if (t > _earlyStoppingMinIterations)
-					{
-						if (((opt_type == MIN) && ((sumErrorWindow / numErrorWindow) < currentMin)) ||
-							((opt_type == MAX) && ((sumErrorWindow / numErrorWindow) > currentMin)))
-						{
-							currentMin = sumErrorWindow / numErrorWindow;
-							_currentMinT = t;
-						}
-//						cout << _earlyStoppingMinIterations << " " << t << ": " << sumErrorWindow / numErrorWindow << " " << _currentMinT << endl;
-						if (t > _currentMinT * _earlyStoppingMaxLookaheadRate)
-						{
-							cout << "Early Stopping at " << t << endl;
-							_earlyStoppingDone = true;
-							break;
-						}
-					}
-				}
+                // Updating earlystopping status for slow resume
+                if (_earlyStopping)
+                {
+                    sumErrorWindow += pOutInfo->getOutputHistory(pTestData, _earlyStoppingOutputColumn, t);
+                    numErrorWindow += 1;
+                    while (numErrorWindow > _earlyStoppingSmoothingWindowRate * t + 1)
+                    {
+                        sumErrorWindow -= pOutInfo->getOutputHistory(pTestData, _earlyStoppingOutputColumn, t - numErrorWindow + 1);
+                        numErrorWindow -= 1;
+                    }
+                    if (t > _earlyStoppingMinIterations)
+                    {
+                        if (((opt_type == MIN) && ((sumErrorWindow / numErrorWindow) < currentMin)) ||
+                            ((opt_type == MAX) && ((sumErrorWindow / numErrorWindow) > currentMin)))
+                        {
+                            currentMin = sumErrorWindow / numErrorWindow;
+                            _currentMinT = t;
+                        }
+                        //						cout << _earlyStoppingMinIterations << " " << t << ": " << sumErrorWindow / numErrorWindow << " " << _currentMinT << endl;
+                        if (t > _currentMinT * _earlyStoppingMaxLookaheadRate)
+                        {
+                            cout << "Early Stopping at " << t << endl;
+                            _earlyStoppingDone = true;
+                            break;
+                        }
+                    }
+                }
 
 
             }  // loop on iterations
