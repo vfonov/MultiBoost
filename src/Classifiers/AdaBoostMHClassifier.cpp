@@ -56,6 +56,9 @@ namespace MultiBoost {
         // The file with the step-by-step information
         if ( args.hasArgument("outputinfo") )
             args.getValue("outputinfo", 0, _outputInfoFile);
+        else
+            _outputInfoFile = OUTPUT_NAME;
+
     }
 
     // -------------------------------------------------------------------------
@@ -101,21 +104,21 @@ namespace MultiBoost {
 
             // output it
             cout << endl;
-            cout << "Error Summary" << endl;
-            cout << "=============" << endl;
+            cout << "True Positive Rates" << endl;
+            cout << "===================" << endl;
 
             for ( int l = 0; l < numClasses; ++l )
             {
                 // first rank (winner): rankedError[0]
                 cout << "Class '" << pData->getClassMap().getNameFromIdx(l) << "': "
-                     << setprecision(4) << rankedError[0][l] * 100 << "%";
+                     << setprecision(4) << (1 - rankedError[0][l]) * 100 << "%";
 
                 // output the others on its side
                 if (numRanksEnclosed > 1 && _verbose > 1)
                 {
                     cout << " (";
                     for (int i = 1; i < numRanksEnclosed; ++i)
-                        cout << " " << i+1 << ":[" << setprecision(4) << rankedError[i][l] * 100 << "%]";
+                        cout << " " << i+1 << ":[" << setprecision(4) << (1 - rankedError[i][l]) * 100 << "%]";
                     cout << " )";
                 }
 
@@ -123,7 +126,7 @@ namespace MultiBoost {
             }
 
             // the overall error
-            cout << "\n--> Overall Error: " 
+            cout << "\n--> Multi-Class Error Rate: " 
                  << setprecision(4) << getOverallError(pData, results, 0) * 100 << "%";
 
             // output the others on its side

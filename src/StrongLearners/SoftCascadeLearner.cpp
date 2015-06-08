@@ -93,7 +93,8 @@ namespace MultiBoost {
         // The file with the step-by-step information
         if ( args.hasArgument("outputinfo") )
             args.getValue("outputinfo", 0, _outputInfoFile);
-        
+        else
+            _outputInfoFile = OUTPUT_NAME;
         
         // --constant: check constant learner in each iteration
         if ( args.hasArgument("constant") )

@@ -381,6 +381,9 @@ int main(int argc, const char* argv[])
                          "taken at Tmin. We stop if T > <maxLookaheadRate>*Tmin.", 
                          3, "<minIterations> <smoothingWindowRate> <maxLookaheadRate>" );
 
+	args.declareArgument("earlystoppingoutputinfo", "Use this outputinfo column instead of the default e01",
+		1, "<outputinfoclumn>");
+
     //// ignored for the moment!
     //args.declareArgument("arffheader", "Specify the arff header.", 1, "<arffHeaderFile>");
         
@@ -656,7 +659,10 @@ int main(int argc, const char* argv[])
                 pOutInfo = new OutputInfo(args);
                 pOutInfo->initialize(pOnePoint);
             }
-                        
+            else
+                outputInfoFile = OUTPUT_NAME;
+
+            
                         
             for (int t = 0; t < numIterations; ++t)
             {

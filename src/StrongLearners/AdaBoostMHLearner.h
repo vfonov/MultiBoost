@@ -247,10 +247,17 @@ namespace MultiBoost {
         bool _earlyStopping; //!< stop before _numIterations iterations if testError does not improve (only with traintest) 
         int _earlyStoppingMinIterations; //!< don't early stop before _earlyStoppingMinIterations iterations
         double _earlyStoppingSmoothingWindowRate; //!< test errors are averaged in the last _earlyStoppingSmoothingWindowRate*T 
-        //iterations
-        int _earlyStoppingMaxLookaheadRate; //!< if the minimum is reached at Tmin, 
+		bool _earlyStoppingDone;
+		//iterations
+		string _earlyStoppingOutputColumn; // !< Which processed output we should consider for early stopping, default to error
+		int _earlyStoppingMaxLookaheadRate; //!< if the minimum is reached at Tmin, 
                                             //we stop after _earlyStoppingMaxLookaheadRate*Tmin iterations
         int _currentMinT; //!< the iteration where the smoothed error is minimal so far
+		AlphaReal sumErrorWindow;
+		int numErrorWindow;
+		AlphaReal currentMin;
+
+
         ////////////////////////////////////////////////////////////////
     private:
         /**

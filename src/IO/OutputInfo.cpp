@@ -53,7 +53,15 @@ namespace MultiBoost {
         _outputList.clear();
         
         string outputInfoFile;
-        args.getValue(clArg, 0, outputInfoFile);
+        
+        if (args.hasArgument(clArg)) {
+            args.getValue(clArg, 0, outputInfoFile);
+
+        }
+        else
+        {
+            outputInfoFile = OUTPUT_NAME;
+        }
         
         if ( args.getNumValues(clArg) > 1)
         {
@@ -210,6 +218,7 @@ namespace MultiBoost {
                 outputIt->second->outputHeader(_headerOutStream, namemap);
                 _headerOutStream << OUTPUT_SEPARATOR;
             }
+            if (i + 1 < numDatasets)_headerOutStream << OUTPUT_SEPARATOR;
         }
         
         if (outputTime) {
@@ -296,7 +305,9 @@ namespace MultiBoost {
     
     BaseOutputInfoType* OutputInfo::getOutputInfoObject(const string& type)
     {
-        return _outputList[type];
+		OutInfIt outputIt = _outputList.find(type);
+		if (outputIt == _outputList.end()) return NULL;
+		return outputIt->second;
     }
     
     // -----------------------------------------------------------------------------------

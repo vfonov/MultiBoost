@@ -45,8 +45,9 @@
 #define __DEFAULTS_H
 
 static const char SHYP_NAME[] = "shyp"; //!< The default strong hypothesis file name
+
 static const char SHYP_EXTENSION[] = "xml"; //!< The default strong hypothesis file name extension
-static const char OUTPUT_NAME[] = "outputinfo.dta"; //!< The default outputinfo file name
+static const char OUTPUT_NAME[] = "results.dta"; //!< The default outputinfo file name
 
 static const char COMMENT[] = "Research code"; //!< Comment to put in the executable 
 

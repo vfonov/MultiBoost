@@ -60,7 +60,9 @@ namespace MultiBoost {
         // The file with the step-by-step information
         if ( args.hasArgument("outputinfo") )
             args.getValue("outputinfo", 0, _outputInfoFile);
-                
+        else
+            _outputInfoFile = OUTPUT_NAME;
+        
         // The file with the stagewise posteriors
         if ( args.hasArgument("stagewiseposteriors") )
             args.getValue("stagewiseposteriors", 0, _outputPosteriorsFileName);

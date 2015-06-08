@@ -40,6 +40,7 @@
 #define __STREAM_TOKENIZER_H
 
 #include <string>
+#include <iostream>
 #include <iterator>
 
 using namespace std;

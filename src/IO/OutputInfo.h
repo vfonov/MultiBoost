@@ -328,6 +328,16 @@ namespace MultiBoost {
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     
+	/**
+	 * The type of optimization required for the outputinfo : maximizing,  minimizing or unknown
+	 */
+	enum OUTPUTINFO_OPTIMIZATION
+	{
+		UNKNOWN = 0,
+		MIN,
+		MAX
+	};
+
     /**
      * The elementary output information. For the most basic one is OuputErrorInfo.
      * This class is a factory, it creates the different outputs the user specifies
@@ -397,6 +407,12 @@ namespace MultiBoost {
         
         AlphaReal getOutputHistory(InputData *pData, int iteration)
         { return iteration < 0 ? _outputHistory[pData].back() : _outputHistory[pData].at(iteration); }
+
+		/*
+		 * The type of optimization we are looking for the outputinfo (minimizing, maximizing or unknown)
+		 */
+		virtual OUTPUTINFO_OPTIMIZATION getOptimType() { return UNKNOWN; }
+        
     };
         
 //    template<class T = AlphaReal>
@@ -457,6 +473,9 @@ namespace MultiBoost {
                               map<InputData*, table>& marginsTableMap, 
                               map<InputData*, AlphaReal>& alphaSums,
                               BaseLearner* pWeakHypothesis = 0);
+
+		OUTPUTINFO_OPTIMIZATION getOptimType() { return MIN; }
+
     };
 
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -483,6 +502,8 @@ namespace MultiBoost {
                               map<InputData*, table>& marginsTableMap, 
                               map<InputData*, AlphaReal>& alphaSums,
                               BaseLearner* pWeakHypothesis = 0);
+
+		OUTPUTINFO_OPTIMIZATION getOptimType() { return MIN; }
     };
         
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -509,6 +530,9 @@ namespace MultiBoost {
                               map<InputData*, table>& marginsTableMap, 
                               map<InputData*, AlphaReal>& alphaSums,
                               BaseLearner* pWeakHypothesis = 0);
+
+		OUTPUTINFO_OPTIMIZATION getOptimType() { return MIN; }
+
     };
 
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -535,6 +559,9 @@ namespace MultiBoost {
                               map<InputData*, table>& marginsTableMap, 
                               map<InputData*, AlphaReal>& alphaSums,
                               BaseLearner* pWeakHypothesis = 0);
+
+		OUTPUTINFO_OPTIMIZATION getOptimType() { return MIN; }
+
     };
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -560,6 +587,9 @@ namespace MultiBoost {
                               map<InputData*, table>& marginsTableMap, 
                               map<InputData*, AlphaReal>& alphaSums,
                               BaseLearner* pWeakHypothesis = 0);
+
+		OUTPUTINFO_OPTIMIZATION getOptimType() { return MIN; }
+
     };
         
         
@@ -756,6 +786,9 @@ namespace MultiBoost {
                               map<InputData*, table>& marginsTableMap, 
                               map<InputData*, AlphaReal>& alphaSums,
                               BaseLearner* pWeakHypothesis = 0);
+
+		OUTPUTINFO_OPTIMIZATION getOptimType() { return MAX; }
+
     };
 
     //////////////////////////////////////////////////////////////////////////////////////////////
