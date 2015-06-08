@@ -36,6 +36,9 @@ add_library(Bzip2Lib STATIC ${bzip2_SRCS})
 #set(CMAKE_INCLUDE_PATH ./)
 include_directories("${BASEPATH}")
 
+# Adding High-level interface
+SET(project_SRCS ${project_SRCS} "${BASEPATH}/multiboost_lib.cpp"  "${BASEPATH}/multiboost_lib.h")
+
 # make the library (used for unit testing)
 add_library(MultiBoostLib STATIC ${project_SRCS})
 
